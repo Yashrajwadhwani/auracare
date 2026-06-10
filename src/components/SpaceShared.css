@@ -1,81 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+/* ── Root & wrapper ───────────────────────────────────────────── */
 .space-wrapper {
   font-family: 'Playfair Display', serif;
+  background: #faf8f5;
+  min-height: 100%;
 }
 
+/* ── Hero ─────────────────────────────────────────────────────── */
 .space-hero {
-  height: 200px;
   position: relative;
+  height: 260px;
   display: flex;
   align-items: flex-end;
-  padding: 0;
   overflow: hidden;
   border-radius: 20px 20px 0 0;
 }
 
-.skincare-hero {
-  background: linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 50%, #dcc9b5 100%);
+.skincare-hero  { background: #f0ebe5; }
+.haircare-hero  { background: #f0ebe5; }
+.wellness-hero  { background: #f0ebe5; }
+
+.space-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-size: cover;
+  background-position: center;
 }
 
-.haircare-hero {
-  background: linear-gradient(135deg, #dce8e0 0%, #c8ddd2 50%, #b5cfc4 100%);
+.skincare-hero::after {
+  content: 'Skincare';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9rem;
+  font-weight: 300;
+  color: rgba(42,36,32,0.06);
+  letter-spacing: -4px;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
-.wellness-hero {
-  background: linear-gradient(135deg, #ddd8ee 0%, #ccc5e4 50%, #bbb3d8 100%);
+.haircare-hero::after {
+  content: 'Haircare';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9rem;
+  font-weight: 300;
+  color: rgba(42,36,32,0.06);
+  letter-spacing: -4px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.wellness-hero::after {
+  content: 'Wellness';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9rem;
+  font-weight: 300;
+  color: rgba(42,36,32,0.06);
+  letter-spacing: -4px;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .space-hero-text {
-  padding: 32px 36px;
+  padding: 40px 44px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .space-tag {
   display: inline-block;
-  font-size: 0.65rem;
-  letter-spacing: 2.5px;
+  font-size: 0.6rem;
+  letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: rgba(61,53,50,0.6);
-  margin-bottom: 10px;
+  color: #b5a898;
+  margin-bottom: 14px;
+  font-family: 'Playfair Display', serif;
 }
 
 .space-hero-text h2 {
-  font-size: 2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
   font-weight: 300;
-  color: #3d3532;
-  margin-bottom: 6px;
+  color: #2a2420;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
 }
 
 .space-hero-text p {
-  font-size: 0.88rem;
-  color: rgba(61,53,50,0.65);
+  font-size: 0.82rem;
+  color: #9a8e86;
   font-weight: 300;
+  line-height: 1.6;
+  max-width: 340px;
 }
 
+/* ── Body ─────────────────────────────────────────────────────── */
 .space-body {
-  padding: 36px 36px 40px;
+  padding: 32px 44px 48px;
+  background: #faf8f5;
 }
 
-.section-row {
+/* ── Section blocks ───────────────────────────────────────────── */
+.section-block {
+  padding: 44px 0 0;
+}
+
+.section-block + .section-block {
+  padding-top: 44px;
+}
+
+/* ── Section header with oversized number ─────────────────────── */
+.section-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ede8e2;
   gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 22px;
+}
+
+.section-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.section-eyebrow {
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #b5a898;
+  font-family: 'Playfair Display', serif;
 }
 
 .section-title {
-  font-size: 1.1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
   font-weight: 400;
-  color: #3d3532;
-  margin-bottom: 20px;
+  color: #2a2420;
+  margin: 0;
+  line-height: 1.1;
 }
 
-.section-row .section-title {
-  margin-bottom: 0;
+.section-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4rem;
+  font-weight: 300;
+  color: #ede8e2;
+  line-height: 1;
+  letter-spacing: -2px;
+  user-select: none;
 }
 
+/* ── Filter tabs ──────────────────────────────────────────────── */
 .filter-tabs {
   display: flex;
   gap: 8px;
@@ -83,58 +176,62 @@
 }
 
 .filter-tab {
-  padding: 7px 16px;
-  border: 1px solid #e8e3df;
+  padding: 6px 18px;
+  border: 1px solid #ddd7d0;
   border-radius: 40px;
   background: transparent;
   font-family: 'Playfair Display', serif;
-  font-size: 0.78rem;
-  color: #726861;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  color: #8a7d74;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
 .filter-tab:hover {
-  border-color: #3d3532;
-  color: #3d3532;
+  border-color: #c9b99a;
+  color: #2a2420;
 }
 
 .filter-tab.active {
-  background: #3d3532;
-  color: white;
-  border-color: #3d3532;
+  background: #f0ebe5;
+  color: #2a2420;
+  border-color: #c9b99a;
 }
 
+/* ── Routine list ─────────────────────────────────────────────── */
 .routine-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
 }
 
 .routine-item {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 18px 20px;
-  background: #f5f0ec;
-  border-radius: 16px;
-  border: 1px solid #ede8e3;
-  transition: all 0.25s ease;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid #ede8e2;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.routine-item:last-child {
+  border-bottom: none;
 }
 
 .routine-item:hover {
-  transform: translateX(4px);
-  border-color: #ddd7d2;
-  box-shadow: 0 4px 16px rgba(61,53,50,0.06);
+  padding-left: 10px;
 }
 
 .routine-step-num {
-  font-size: 0.7rem;
-  color: #a39b95;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: #c9b99a;
   letter-spacing: 1px;
-  font-weight: 400;
-  width: 24px;
+  width: 28px;
   flex-shrink: 0;
+  font-weight: 400;
 }
 
 .routine-info {
@@ -144,333 +241,423 @@
 .routine-name-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 5px;
   flex-wrap: wrap;
 }
 
 .routine-name {
-  font-size: 0.95rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
   font-weight: 400;
-  color: #3d3532;
+  color: #2a2420;
+  letter-spacing: 0.2px;
 }
 
 .routine-badge {
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #a39b95;
-  background: #ede8e3;
-  padding: 3px 10px;
+  color: #b5a898;
+  background: #f0ebe5;
+  padding: 3px 12px;
   border-radius: 20px;
+  font-family: 'Playfair Display', serif;
 }
 
 .routine-desc {
-  font-size: 0.82rem;
-  color: #726861;
+  font-size: 0.8rem;
+  color: #9a8e86;
   font-weight: 300;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .routine-time {
-  font-size: 0.72rem;
-  color: #a39b95;
-  letter-spacing: 0.5px;
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #c9b99a;
   flex-shrink: 0;
-  text-align: right;
-  min-width: 40px;
+  font-family: 'Playfair Display', serif;
 }
 
+/* ── Dark band section ────────────────────────────────────────── */
+.dark-band {
+  background: #f0ebe5;
+  margin: 40px -44px 0;
+  padding: 44px 44px;
+}
+
+.dark-band .section-title {
+  color: #2a2420;
+}
+
+.dark-band .section-eyebrow {
+  color: #b5a898;
+}
+
+.dark-band .section-number {
+  color: rgba(42,36,32,0.08);
+}
+
+.dark-band .section-header {
+  border-bottom-color: #ddd7d0;
+}
+
+/* ── Product grid (inside dark band) ─────────────────────────── */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  overflow: visible;
+  margin-top: 20px;
+  margin-bottom: 44px;
 }
 
 .product-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  background: #f5f0ec;
-  border-radius: 16px;
-  border: 1px solid #ede8e3;
-  transition: all 0.25s ease;
+  gap: 16px;
+  padding: 20px 22px;
+  background: #f0ebe5;
+  border: 1px solid #ddd7d0;
+  border-radius: 14px;
+  transition: background 0.2s ease;
   cursor: pointer;
 }
 
 .product-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(61,53,50,0.07);
-  border-color: #ddd7d2;
+  background: #e8e0d8;
 }
 
 .product-dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #c9b99a;
   flex-shrink: 0;
+  opacity: 0.7;
 }
 
 .product-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   flex: 1;
 }
 
 .product-name {
-  font-size: 0.88rem;
-  color: #3d3532;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: #2a2420;
   font-weight: 400;
 }
 
 .product-brand {
-  font-size: 0.75rem;
-  color: #a39b95;
+  font-size: 0.7rem;
+  color: #9a8e86;
   font-weight: 300;
+  font-family: 'Playfair Display', serif;
 }
 
 .product-meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 3px;
+  gap: 4px;
 }
 
 .product-concern {
-  font-size: 0.7rem;
-  color: #726861;
-  background: #ede8e3;
-  padding: 2px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
+  font-size: 0.62rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #b5a898;
+  font-family: 'Playfair Display', serif;
 }
 
 .product-rating {
   font-size: 0.72rem;
-  color: #b5a090;
+  color: #c9b99a;
+  font-family: 'Playfair Display', serif;
 }
 
+/* ── Metrics (haircare) ───────────────────────────────────────── */
 .metrics-row {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .metric-item {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-
-.metric-bar-wrap {
-  height: 6px;
-  background: #ede8e3;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.metric-bar {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  gap: 10px;
 }
 
 .metric-label-row {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 }
 
 .metric-label {
-  font-size: 0.82rem;
-  color: #726861;
-  font-weight: 300;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #2a2420;
+  font-weight: 400;
 }
 
 .metric-value {
-  font-size: 0.82rem;
-  color: #3d3532;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: #2a2420;
+  font-weight: 300;
 }
 
+.metric-bar-wrap {
+  height: 3px;
+  background: #ede8e2;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.metric-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Mood (wellness) ──────────────────────────────────────────── */
 .mood-section {
-  margin-bottom: 36px;
+  padding: 44px 0 0;
 }
 
 .mood-row {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .mood-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 14px 18px;
-  border: 1px solid #e8e3df;
-  border-radius: 16px;
+  gap: 8px;
+  padding: 16px 20px;
+  border: 1px solid #ddd7d0;
+  border-radius: 18px;
   background: transparent;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   font-family: 'Playfair Display', serif;
+  min-width: 68px;
 }
 
 .mood-btn:hover {
-  border-color: #3d3532;
-  background: #f5f0ec;
+  border-color: #c9b99a;
+  background: #f0ebe5;
 }
 
 .mood-btn.selected {
-  background: #f5f0ec;
-  border-color: #3d3532;
+  background: #f0ebe5;
+  border-color: #c9b99a;
+}
+
+.mood-btn.selected .mood-label {
+  color: #8a7d74;
 }
 
 .mood-emoji {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 
 .mood-label {
-  font-size: 0.72rem;
-  color: #726861;
-  letter-spacing: 0.3px;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #9a8e86;
+  font-family: 'Playfair Display', serif;
 }
 
 .mood-response {
-  font-size: 0.88rem;
-  color: #726861;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #6a5e56;
   font-style: italic;
-  padding: 14px 20px;
-  background: #f5f0ec;
+  padding: 18px 24px;
+  background: #f0ebe5;
   border-radius: 14px;
-  line-height: 1.6;
-  border-left: 3px solid #c9b99a;
+  line-height: 1.7;
+  border-left: 2px solid #c9b99a;
+  margin-top: 4px;
 }
 
+/* ── Quote block ──────────────────────────────────────────────── */
 .daily-quote {
-  position: relative;
-  padding: 28px 32px;
-  background: linear-gradient(135deg, #f5f0ec, #ede8e3);
+  margin: 40px 0 0;
+  padding: 36px 44px;
+  background: #f0ebe5;
   border-radius: 20px;
-  margin: 4px 0 36px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ddd7d0;
 }
 
-.quote-mark {
-  font-size: 4rem;
-  font-weight: 300;
-  color: #c9b99a;
-  line-height: 0;
+.daily-quote::before {
+  content: '"';
   position: absolute;
-  top: 28px;
-  left: 22px;
-  opacity: 0.7;
+  top: -20px;
+  left: 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10rem;
+  color: rgba(42,36,32,0.06);
+  line-height: 1;
+  pointer-events: none;
 }
+
+.quote-mark { display: none; }
 
 .daily-quote p {
-  font-size: 0.95rem;
-  color: #3d3532;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  color: #6a5e56;
   font-style: italic;
   font-weight: 300;
   line-height: 1.75;
-  padding-left: 28px;
+  position: relative;
+  z-index: 1;
+  margin: 0;
 }
 
+/* ── Ritual grid ──────────────────────────────────────────────── */
 .ritual-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
 }
 
 .ritual-card {
   display: flex;
-  gap: 18px;
-  padding: 18px 20px;
-  background: #f5f0ec;
-  border-radius: 16px;
-  border: 1px solid #ede8e3;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #ede8e2;
   transition: all 0.25s ease;
 }
 
 .ritual-card:hover {
-  transform: translateX(4px);
-  border-color: #ddd7d2;
-  box-shadow: 0 4px 16px rgba(61,53,50,0.06);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(42,36,32,0.09);
+  border-color: #ddd7d0;
 }
 
 .ritual-icon {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+  font-size: 1.5rem;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  border-radius: 10px;
+  background: #faf8f5;
+  border-radius: 14px;
+  border: 1px solid #ede8e2;
 }
 
 .ritual-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .ritual-name-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 5px;
+  gap: 8px;
 }
 
 .ritual-name {
-  font-size: 0.95rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
   font-weight: 400;
-  color: #3d3532;
+  color: #2a2420;
+  line-height: 1.2;
 }
 
 .ritual-duration {
-  font-size: 0.72rem;
-  color: #a39b95;
-  background: white;
-  padding: 3px 10px;
+  font-size: 0.62rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #b5a898;
+  background: #f0ebe5;
+  padding: 4px 10px;
   border-radius: 20px;
-  border: 1px solid #e8e3df;
+  flex-shrink: 0;
+  font-family: 'Playfair Display', serif;
+  border: none;
 }
 
 .ritual-desc {
-  font-size: 0.82rem;
-  color: #726861;
+  font-size: 0.78rem;
+  color: #9a8e86;
   font-weight: 300;
-  line-height: 1.5;
-  margin-bottom: 8px;
+  line-height: 1.6;
+  flex: 1;
 }
 
 .ritual-time-badge {
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #a39b95;
+  color: #c9b99a;
+  font-family: 'Playfair Display', serif;
 }
 
-@media (max-width: 600px) {
-  .space-body {
-    padding: 24px 20px 32px;
-  }
+/* ── Section row (legacy compat) ──────────────────────────────── */
+.section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
 
-  .space-hero-text {
-    padding: 24px 20px;
-  }
+.section-row .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: #2a2420;
+  margin: 0;
+}
 
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
+/* ── Fade-in ──────────────────────────────────────────────────── */
+.fade-in {
+  animation: fadeUp 0.35s ease forwards;
+}
 
-  .mood-row {
-    gap: 8px;
-  }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-  .mood-btn {
-    padding: 10px 12px;
-  }
+/* ── Mobile ───────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .space-hero { height: 220px; }
+  .space-hero-text { padding: 28px 28px; }
+  .space-hero-text h2 { font-size: 2rem; }
+  .space-body { padding: 24px 24px 40px; }
+  .section-block { padding: 32px 0 0; }
+  .dark-band { margin: 32px -24px 0; padding: 32px 24px; }
+  .mood-section { padding: 32px 0 0; }
+  .daily-quote { margin: 32px 0 0; padding: 28px 28px; }
+  .product-grid { grid-template-columns: 1fr; }
+  .ritual-grid { grid-template-columns: 1fr; }
+  .section-number { font-size: 3rem; }
 }

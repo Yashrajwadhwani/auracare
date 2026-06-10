@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import CameraCapture from "./CameraCapture";
 
 const SKIN_TYPES = ["Dry", "Oily", "Combination", "Sensitive"];
 const HAIR_TYPES = ["Straight", "Wavy", "Curly", "Coily"];
@@ -20,11 +21,14 @@ function getAvatarColor(name) {
   return avatarColors[Math.abs(hash) % avatarColors.length];
 }
 
-export default function ProfilePage({ userData, onClose, onSave }) {
+export default function ProfilePage({ userData, onClose, onSave, onLogout }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState({ ...userData });
   const [saved, setSaved] = useState(false);
+  const [cameraOpen, setCameraOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("profile");
+  const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
   useEffect(() => { setDraft({ ...userData }); }, [userData]);
 
@@ -45,6 +49,17 @@ export default function ProfilePage({ userData, onClose, onSave }) {
     setSaved(true);
     setEditing(false);
     setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handlePhotoSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setDraft(prev => ({ ...prev, profilePhoto: ev.target.result }));
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
   };
 
   const completionFields = [
@@ -100,7 +115,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           to   { opacity: 1; transform: scale(1)    translateY(0); }
         }
 
-        /* ── Header ── */
         .pp-header {
           background: var(--paper-dark, #f5f0ec);
           border-bottom: 1px solid var(--border, #e8e3df);
@@ -133,6 +147,10 @@ export default function ProfilePage({ userData, onClose, onSave }) {
 
         .pp-identity { display: flex; align-items: center; gap: 20px; }
 
+        .pp-avatar-wrap {
+          position: relative;
+          flex-shrink: 0;
+        }
         .pp-avatar {
           width: 68px; height: 68px;
           border-radius: 50%;
@@ -140,9 +158,42 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           font-family: 'Playfair Display', serif;
           font-size: 28px; font-weight: 400;
           color: white;
-          flex-shrink: 0;
+          overflow: hidden;
           box-shadow: 0 4px 16px rgba(61,53,50,0.18);
+          transition: 0.3s ease;
         }
+        .pp-avatar img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        .pp-avatar-overlay {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background: rgba(61,53,50,0.55);
+          display: flex; align-items: center; justify-content: center;
+          opacity: 0;
+          transition: opacity 0.25s ease;
+          pointer-events: none;
+        }
+        .pp-avatar-wrap:hover .pp-avatar-overlay {
+          opacity: 1;
+        }
+        .pp-avatar-wrap:hover .pp-avatar {
+          box-shadow: 0 6px 22px rgba(61,53,50,0.28);
+        }
+        .pp-avatar-edit-hint {
+          font-size: 0.55rem;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: rgba(252,250,247,0.9);
+          text-align: center;
+          font-family: 'Playfair Display', serif;
+          margin-top: 3px;
+          line-height: 1.2;
+        }
+
         .pp-name-block h2 {
           font-family: 'Playfair Display', serif;
           font-weight: 400; font-size: 2rem;
@@ -161,7 +212,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           font-family: 'Playfair Display', serif;
         }
 
-        /* Completion bar */
         .pp-completion-label {
           display: flex; justify-content: space-between; align-items: center;
           font-size: 0.65rem; color: var(--muted, #a39b95);
@@ -185,7 +235,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ── Nav tabs ── */
         .pp-nav {
           display: flex;
           border-bottom: 1px solid var(--border, #e8e3df);
@@ -217,7 +266,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           color: var(--text-secondary, #726861);
         }
 
-        /* ── Body ── */
         .pp-body {
           flex: 1; overflow-y: auto;
           padding: 36px 40px 40px;
@@ -230,7 +278,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           background: var(--border, #e8e3df); border-radius: 4px;
         }
 
-        /* Action bar */
         .pp-action-bar {
           display: flex; justify-content: flex-end;
           gap: 10px; margin-bottom: 32px;
@@ -284,7 +331,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           color: var(--espresso, #3d3532);
         }
 
-        /* Toast */
         .pp-toast {
           position: fixed; bottom: 32px; left: 50%;
           transform: translateX(-50%);
@@ -305,7 +351,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           to { opacity:0; transform: translateX(-50%) translateY(8px); }
         }
 
-        /* Section heading */
         .pp-heading {
           font-family: 'Playfair Display', serif;
           font-size: 1.5rem; font-weight: 300;
@@ -330,7 +375,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           margin: 28px 0;
         }
 
-        /* Field grid */
         .pp-field-grid {
           display: grid; grid-template-columns: 1fr 1fr;
           gap: 20px; margin-bottom: 28px;
@@ -383,7 +427,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
         }
         .pp-select:focus { border-color: var(--espresso, #3d3532); }
 
-        /* Stat cards — matches .card style from App.css */
         .pp-stats {
           display: grid; grid-template-columns: repeat(3, 1fr);
           gap: 16px; margin-bottom: 28px;
@@ -417,7 +460,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           font-family: 'Playfair Display', serif;
         }
 
-        /* Tags / chips */
         .pp-tag-cloud {
           display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px;
         }
@@ -465,6 +507,105 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           gap: 10px; width: 100%;
         }
 
+        .pp-photo-edit-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 28px;
+          padding: 20px;
+          background: var(--paper-dark, #f5f0ec);
+          border: 1px solid var(--border, #e8e3df);
+          border-radius: 18px;
+        }
+        .pp-photo-edit-avatar {
+          width: 60px; height: 60px;
+          border-radius: 50%;
+          overflow: hidden;
+          flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Playfair Display', serif;
+          font-size: 24px; color: white;
+          box-shadow: 0 2px 10px rgba(61,53,50,0.15);
+        }
+        .pp-photo-edit-avatar img {
+          width: 100%; height: 100%; object-fit: cover;
+        }
+        .pp-photo-edit-info {
+          flex: 1;
+        }
+        .pp-photo-edit-title {
+          font-size: 0.88rem;
+          color: var(--espresso, #3d3532);
+          font-family: 'Playfair Display', serif;
+          font-weight: 300;
+          margin-bottom: 4px;
+        }
+        .pp-photo-edit-hint {
+          font-size: 0.72rem;
+          color: var(--muted, #a39b95);
+          font-family: 'Playfair Display', serif;
+          letter-spacing: 0.3px;
+        }
+        .pp-photo-upload-btn {
+          background: var(--paper, #fcfaf7);
+          border: 1px solid var(--border, #e8e3df);
+          color: var(--espresso, #3d3532);
+          padding: 9px 18px;
+          border-radius: 40px;
+          font-family: 'Playfair Display', serif;
+          font-size: 0.78rem;
+          font-weight: 300;
+          cursor: pointer;
+          transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+          display: flex; align-items: center; gap: 7px;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+        .pp-photo-upload-btn:hover {
+          background: var(--espresso, #3d3532);
+          color: white;
+          border-color: var(--espresso, #3d3532);
+          transform: translateY(-1px);
+        }
+        .pp-photo-remove-btn {
+          background: transparent;
+          border: 1px solid var(--border, #e8e3df);
+          color: var(--muted, #a39b95);
+          padding: 9px 14px;
+          border-radius: 40px;
+          font-family: 'Playfair Display', serif;
+          font-size: 0.75rem;
+          cursor: pointer;
+          transition: 0.25s ease;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+        .pp-photo-remove-btn:hover {
+          color: #9a4040;
+          border-color: #d4b8b8;
+          background: #fdf5f5;
+        }
+
+        .pp-btn-logout {
+          background: transparent;
+          border: 1px solid #d4b8b8;
+          color: #9a4040;
+          padding: 10px 24px;
+          border-radius: 40px;
+          font-family: 'Playfair Display', serif;
+          font-size: 0.85rem;
+          font-weight: 300;
+          cursor: pointer;
+          transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+          letter-spacing: 0.5px;
+        }
+        .pp-btn-logout:hover {
+          background: #fdf5f5;
+          border-color: #9a4040;
+          color: #7a3030;
+          transform: translateY(-1px);
+        }
+
         @media (max-width: 580px) {
           .pp-field-grid { grid-template-columns: 1fr; }
           .pp-body { padding: 24px 24px 32px; }
@@ -473,22 +614,60 @@ export default function ProfilePage({ userData, onClose, onSave }) {
           .pp-nav-btn { padding: 14px 12px; font-size: 0.8rem; }
           .pp-stats { grid-template-columns: repeat(3, 1fr); }
           .pp-heading { font-size: 1.3rem; }
+          .pp-photo-edit-row { flex-wrap: wrap; }
         }
       `}</style>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handlePhotoSelect}
+      />
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        style={{ display: "none" }}
+        onChange={handlePhotoSelect}
+      />
 
       <div className="pp-overlay" onClick={onClose}>
         <div className="pp-panel" onClick={e => e.stopPropagation()}>
 
-          {/* ── Header ── */}
           <div className="pp-header">
             <div className="pp-header-top">
               <div className="pp-identity">
                 <div
-                  className="pp-avatar"
-                  style={{ background: `linear-gradient(135deg, ${avatarColor}, ${avatarColor}bb)` }}
+                  className="pp-avatar-wrap"
+                  onClick={editing ? () => fileInputRef.current?.click() : undefined}
+                  title={editing ? "Change profile photo" : "Profile photo"}
+                  style={editing ? { cursor: "pointer" } : { cursor: "default" }}
                 >
-                  {initial}
+                  <div
+                    className="pp-avatar"
+                    style={!draft.profilePhoto ? { background: `linear-gradient(135deg, ${avatarColor}, ${avatarColor}bb)` } : {}}
+                  >
+                    {draft.profilePhoto
+                      ? <img src={draft.profilePhoto} alt="profile" />
+                      : initial
+                    }
+                  </div>
+                  {editing && (
+                    <div className="pp-avatar-overlay">
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(252,250,247,0.95)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                          <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                        <span className="pp-avatar-edit-hint">Change</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
+
                 <div className="pp-name-block">
                   <h2>{draft.username || "Your Profile"}</h2>
                   <p>{draft.email || "AuraCare Member"}</p>
@@ -508,7 +687,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
             </div>
           </div>
 
-          {/* ── Nav ── */}
           <div className="pp-nav">
             {sections.map(s => (
               <button
@@ -521,7 +699,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
             ))}
           </div>
 
-          {/* ── Body ── */}
           <div className="pp-body">
             <div className="pp-action-bar">
               {editing ? (
@@ -532,11 +709,13 @@ export default function ProfilePage({ userData, onClose, onSave }) {
                   <button className="pp-btn-save" onClick={handleSave}>Save Changes</button>
                 </>
               ) : (
-                <button className="pp-btn-edit" onClick={() => setEditing(true)}>Edit Profile</button>
+                <>
+                  <button className="pp-btn-logout" onClick={onLogout}>Log Out</button>
+                  <button className="pp-btn-edit" onClick={() => setEditing(true)}>Edit Profile</button>
+                </>
               )}
             </div>
 
-            {/* PROFILE TAB */}
             {activeSection === "profile" && (
               <div>
                 <div className="pp-stats">
@@ -553,6 +732,55 @@ export default function ProfilePage({ userData, onClose, onSave }) {
                     <span className="pp-stat-lbl">Complete</span>
                   </div>
                 </div>
+
+                {editing && (
+                  <div className="pp-photo-edit-row">
+                    <div
+                      className="pp-photo-edit-avatar"
+                      style={!draft.profilePhoto ? { background: `linear-gradient(135deg, ${avatarColor}, ${avatarColor}bb)` } : {}}
+                    >
+                      {draft.profilePhoto
+                        ? <img src={draft.profilePhoto} alt="profile" />
+                        : initial
+                      }
+                    </div>
+                    <div className="pp-photo-edit-info">
+                      <div className="pp-photo-edit-title">Profile Photo</div>
+                      <div className="pp-photo-edit-hint">
+                        {draft.profilePhoto ? "Photo uploaded" : "Upload from camera or gallery"}
+                      </div>
+                    </div>
+                    <button
+                      className="pp-photo-upload-btn"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      {draft.profilePhoto ? "Change" : "Upload"}
+                    </button>
+                    <button
+                      className="pp-photo-upload-btn"
+                      onClick={() => setCameraOpen(true)}
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                      </svg>
+                      Camera
+                    </button>
+                    {draft.profilePhoto && (
+                      <button
+                        className="pp-photo-remove-btn"
+                        onClick={() => setDraft(prev => ({ ...prev, profilePhoto: null }))}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                )}
 
                 <span className="pp-eyebrow">Account Details</span>
                 <p className="pp-heading">Personal Information</p>
@@ -596,7 +824,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
               </div>
             )}
 
-            {/* SKIN TAB */}
             {activeSection === "skin" && (
               <div>
                 <span className="pp-eyebrow">Your Skin</span>
@@ -637,7 +864,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
               </div>
             )}
 
-            {/* HAIR TAB */}
             {activeSection === "hair" && (
               <div>
                 <span className="pp-eyebrow">Your Hair</span>
@@ -678,7 +904,6 @@ export default function ProfilePage({ userData, onClose, onSave }) {
               </div>
             )}
 
-            {/* WELLNESS TAB */}
             {activeSection === "wellness" && (
               <div>
                 <span className="pp-eyebrow">Daily Habits</span>
@@ -731,6 +956,12 @@ export default function ProfilePage({ userData, onClose, onSave }) {
       </div>
 
       {saved && <div className="pp-toast">✓ Profile updated successfully</div>}
+      <CameraCapture
+        isOpen={cameraOpen}
+        onClose={() => setCameraOpen(false)}
+        onCapture={(dataUrl) => setDraft(prev => ({ ...prev, profilePhoto: dataUrl }))}
+        title="Take Photo"
+      />
     </>
   );
 }
